@@ -1,6 +1,6 @@
 package com.hilmy.discount;
 
-class Product {
+public class Product {
     private final String category;
     private final double price;
 
@@ -17,4 +17,3 @@ class Product {
         return price;
     }
 }
-

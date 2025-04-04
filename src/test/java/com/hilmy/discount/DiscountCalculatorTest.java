@@ -1,76 +1,70 @@
-// DiscountCalculatorTest.java (JUnit 5)
+// DiscountCalculatorTest.java (JUnit 3-compatible)
 package com.hilmy.discount;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import junit.framework.TestCase;
 
 /**
- * This test class validates the behavior of the DiscountCalculator class
- * using JUnit 5. Make sure the Customer, Product, and DiscountCalculator
- * classes are implemented in the same package and contain the required
- * methods and constructors.
+ * Unit test for DiscountCalculator using JUnit 3 (as specified by original pom.xml).
  */
-public class DiscountCalculatorTest {
+public class DiscountCalculatorTest extends TestCase {
 
-    private final DiscountCalculator calculator = new DiscountCalculator();
+    private DiscountCalculator calculator;
 
-    @Test
+    protected void setUp() {
+        calculator = new DiscountCalculator();
+    }
+
     public void testElectronicsGoldLargeQuantity() {
         Customer customer = new Customer("Gold", 15000);
         Product product = new Product("Electronics", 1200);
         int quantity = 6;
+        double expected = product.getPrice() * quantity * 0.83;
         double total = calculator.calculateDiscount(customer, product, quantity);
-        double expected = product.getPrice() * quantity * 0.83; // 17% discount
         assertEquals(expected, total, 0.01);
     }
 
-    @Test
     public void testClothingSilverLowQuantity() {
         Customer customer = new Customer("Silver", 3000);
         Product product = new Product("Clothing", 100);
         int quantity = 2;
+        double expected = product.getPrice() * quantity * 0.95;
         double total = calculator.calculateDiscount(customer, product, quantity);
-        double expected = product.getPrice() * quantity * 0.95; // 5% discount
         assertEquals(expected, total, 0.01);
     }
 
-    @Test
     public void testGroceriesHighQuantity() {
         Customer customer = new Customer("None", 200);
         Product product = new Product("Groceries", 10);
         int quantity = 11;
+        double expected = product.getPrice() * quantity * 0.97;
         double total = calculator.calculateDiscount(customer, product, quantity);
-        double expected = product.getPrice() * quantity * 0.97; // 3% discount
         assertEquals(expected, total, 0.01);
     }
 
-    @Test
     public void testOtherCategory() {
         Customer customer = new Customer("None", 0);
         Product product = new Product("Books", 30);
         int quantity = 3;
+        double expected = product.getPrice() * quantity * 0.99;
         double total = calculator.calculateDiscount(customer, product, quantity);
-        double expected = product.getPrice() * quantity * 0.99; // 1% discount
         assertEquals(expected, total, 0.01);
     }
 
-    @Test
     public void testMaxDiscountCap() {
         Customer customer = new Customer("Gold", 20000);
         Product product = new Product("Clothing", 500);
         int quantity = 20;
+        double expected = product.getPrice() * quantity * 0.80;
         double total = calculator.calculateDiscount(customer, product, quantity);
-        double maxExpectedDiscount = product.getPrice() * quantity * 0.8; // 20% cap
-        assertTrue(total >= maxExpectedDiscount);
+        assertEquals(expected, total, 0.01);
     }
 
-    @Test
     public void testNoDiscount() {
         Customer customer = new Customer("None", 0);
         Product product = new Product("Clothing", 100);
         int quantity = 1;
+        double expected = product.getPrice() * quantity;
         double total = calculator.calculateDiscount(customer, product, quantity);
-        double expected = product.getPrice() * quantity; // No discount
         assertEquals(expected, total, 0.01);
     }
 }
